@@ -130,9 +130,11 @@ def run_module():
             # Safe original variable value
             cmd = "%s vget --format=string --exact %s" % (drush, name)
             rc, out, err = module.run_command(cmd, cwd=module.params['path'])
-            if rc != 0:
-                module.fail_json(msg=err)
-            original_value = out.rstrip()
+            # ignore errors, most likely variable hasn't been set
+            if rc == 0:
+                original_value = out.rstrip()
+            else:
+                original_value = ''
             result['original_value'] = original_value
 
     # Command could have been changed to a non-destructive one in check-mode.

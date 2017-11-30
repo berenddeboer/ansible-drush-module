@@ -152,12 +152,7 @@ def run_module():
         if module.params['value']:
             cmd_extra = cmd_extra + ' ' + module.params['value']
 
-    hates_format = { 'updb', 'updatedb', 'cc', 'cache-clear' }
-    if not command in hates_format:
-        format = '--format=json'
-    else:
-        format = ''
-    cmd = "%s %s --nocolor -y %s%s" % (drush, command, format, cmd_extra)
+    cmd = "%s %s --nocolor --strict=0 --format=json -y %s%s" % (drush, command, format, cmd_extra)
 
     # run drush. In check mode only run drush if it is safe to do so.
     safe_commands = { 'config-get', 'core-requirements', 'core-status', 'drupal-directory', 'pm-info', 'pm-list', 'pm-projectinfo', 'search-status', 'state-get', 'status', 'user-information', 'variable-get', 'watchdog-list', 'watchdog-show' }
@@ -172,7 +167,10 @@ def run_module():
             if out == '':
                 v = []
             else:
-                v = json.loads(out)
+                try:
+                    v = json.loads(out)
+                except:
+                    v = []
             # for variables don't use the generic drush result, but the actual name.
             if command == 'variable-get':
                 result[name] = v

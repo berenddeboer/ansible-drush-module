@@ -31,4 +31,11 @@ actually changed (or going to be changed in check mode).
 - name: set variable
   drush: path=/var/www/www.example.com command=variable-set name=page_cache_maximum_age value=3600
   register: drush
+
+# Modules
+- name: disable a module
+  drush: path=/var/www/www.example.com command=pm-disable name=devel
+
+- name: enable a module
+  drush: path=/var/www/www.example.com command=pm-enable name=memcache
 ```

@@ -159,7 +159,7 @@ def run_module():
         if module.params['value']:
             cmd_extra = cmd_extra + ' ' + module.params['value']
 
-    cmd = "%s %s --nocolor --strict=0 --format=json -y %s%s" % (drush, command, format, cmd_extra)
+    cmd = "%s %s --nocolor --strict=0 --format=json -y %s" % (drush, command, cmd_extra)
 
     # run drush. In check mode only run drush if it is safe to do so.
     safe_commands = { 'config-get', 'core-requirements', 'core-status', 'drupal-directory', 'pm-info', 'pm-list', 'pm-projectinfo', 'search-status', 'state-get', 'status', 'user-information', 'variable-get', 'watchdog-list', 'watchdog-show' }
